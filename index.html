@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SO-Active Sportzentrum - Neueste Nachrichten, Events und Updates aus unserem Restaurant">
+    <title>SO-Active Sportzentrum Neuigkeiten</title>
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* ============================================
+           CSS VARIABLES - SO-Active Color Scheme
+           ============================================ */
+        :root {
+            --primary-orange: #FF6828;
+            --deep-blue: #086098;
+            --light-blue: #58C0FF;
+            --earthy-tan: #887848;
+            --medium-grey: #969696;
+            --charcoal: #2A2A2A;
+            --white: #FFFFFF;
+            --light-grey: #EEEEEE;
+
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--deep-blue), var(--light-blue));
+            --gradient-accent: linear-gradient(135deg, var(--primary-orange), #FF8A5B);
+
+            /* Spacing - Reduced for compact layout */
+            --spacing-xs: 0.4rem;
+            --spacing-sm: 0.6rem;
+            --spacing-md: 0.8rem;
+            --spacing-lg: 1rem;
+
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--charcoal);
+            line-height: 1.4;
+            height: 100vh;
+            overflow: hidden;
+            padding: var(--spacing-md);
+        }
+
+        /* ============================================
+           CONTAINER - FULL HEIGHT LAYOUT
+           ============================================ */
+        .container {
+            max-width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        /* ============================================
+           HEADER - COMPACT
+           ============================================ */
+        .header {
+            text-align: center;
+            padding: var(--spacing-lg);
+            background: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--deep-blue);
+            margin-bottom: var(--spacing-xs);
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: var(--medium-grey);
+        }
+
+        /* ============================================
+           MAIN GRID - 3 COLUMNS
+           ============================================ */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: var(--spacing-md);
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* ============================================
+           CARDS - COMPACT
+           ============================================ */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--light-grey);
+            flex-shrink: 0;
+        }
+
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--deep-blue);
+            font-weight: 700;
+        }
+
+        .card-content {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        /* ============================================
+           NEWS SECTION - COMPACT
+           ============================================ */
+        .news-item {
+            padding: var(--spacing-sm);
+            background: linear-gradient(135deg, rgba(255, 104, 40, 0.05), rgba(8, 96, 152, 0.05));
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-sm);
+            border-left: 3px solid var(--primary-orange);
+        }
+
+        .news-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .news-date {
+            font-size: 0.7rem;
+            color: var(--medium-grey);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .news-title {
+            font-size: 0.95rem;
+            color: var(--deep-blue);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .news-description {
+            font-size: 0.85rem;
+            color: var(--charcoal);
+            line-height: 1.4;
+        }
+
+        /* ============================================
+           EMBEDS - COMPACT
+           ============================================ */
+        .embed-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-sm);
+            background: var(--light-grey);
+            overflow: hidden;
+        }
+
+        .embed-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ============================================
+           MIDDLE COLUMN - SPECIAL LAYOUT
+           ============================================ */
+        .middle-column {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .qr-section {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            flex: 1;
+        }
+
+        .qr-section h2 {
+            text-align: center;
+            color: var(--deep-blue);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-md);
+            font-weight: 700;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .qr-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .qr-code {
+            display: inline-block;
+            padding: var(--spacing-xs);
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-xs);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .qr-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            margin-top: var(--spacing-xs);
+        }
+
+        .qr-url {
+            font-size: 0.7rem;
+            color: var(--medium-grey);
+            word-break: break-all;
+        }
+
+        /* ============================================
+           OPENING HOURS SECTION
+           ============================================ */
+        .hours-section {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            flex: 1;
+        }
+
+        .hours-section h2 {
+            text-align: center;
+            color: var(--deep-blue);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-md);
+            font-weight: 700;
+        }
+
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--light-grey);
+        }
+
+        .hours-item:last-child {
+            border-bottom: none;
+        }
+
+        .hours-day {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .hours-time {
+            font-size: 0.85rem;
+            color: var(--medium-grey);
+            text-align: right;
+        }
+
+        /* ============================================
+           CTA SECTION - COMPACT
+           ============================================ */
+        .cta-section {
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            color: var(--white);
+            flex: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 0.85rem;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary {
+            background: var(--primary-orange);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #FF8A5B;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--deep-blue);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-grey);
+            transform: translateY(-1px);
+        }
+
+        /* ============================================
+           SCROLLBAR STYLING
+           ============================================ */
+        .card-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card-content::-webkit-scrollbar-track {
+            background: var(--light-grey);
+            border-radius: 3px;
+        }
+
+        .card-content::-webkit-scrollbar-thumb {
+            background: var(--medium-grey);
+            border-radius: 3px;
+        }
+
+        .card-content::-webkit-scrollbar-thumb:hover {
+            background: var(--deep-blue);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .middle-column {
+                grid-column: span 2;
+                flex-direction: row;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.8rem;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .middle-column {
+                grid-column: 1;
+                flex-direction: column;
+            }
+
+            .qr-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <h1>🏃‍♂️ SO-Active Sportzentrum Neuigkeiten</h1>
+            <p class="subtitle">Aktuelle Updates, Events und Restaurant-Spezialitäten</p>
+        </header>
+
+        <!-- MAIN 3-COLUMN GRID -->
+        <div class="main-grid">
+            <!-- LEFT COLUMN: RESTAURANT NEWS -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🍽️</div>
+                    <h2 class="card-title">Restaurant Events</h2>
+                </div>
+                <div class="card-content">
+                    <iframe src="https://luma.com/embed/calendar/cal-fO7EIOf3Dr34eru/events?tag=Soma-Restaurant"
+                        width="100%" height="100%" frameborder="0"
+                        style="border: 1px solid #bfcbda88; border-radius: 4px;" allowfullscreen="" aria-hidden="false"
+                        tabindex="0"></iframe>
+                </div>
+            </div>
+
+            <!-- MIDDLE COLUMN: QR CODES + CTA -->
+            <div class="middle-column">
+                <!-- QR CODES -->
+                <div class="qr-section">
+                    <h2>📱 Scannen zum Entdecken</h2>
+                    <div class="qr-container">
+                        <div class="qr-item">
+                            <div class="qr-code" id="qr-restaurant"></div>
+                            <div class="qr-label">Restaurant</div>
+                            <div class="qr-url">soma-restaurant.ch</div>
+                        </div>
+
+                        <div class="qr-item">
+                            <div class="qr-code" id="qr-luma"></div>
+                            <div class="qr-label">Events</div>
+                            <div class="qr-url">lu.ma/so-active...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OPENING HOURS -->
+                <div class="hours-section">
+                    <h2>🕐 Öffnungszeiten</h2>
+                    <div class="hours-item">
+                        <div class="hours-day">Montag - Freitag</div>
+                        <div class="hours-time">08:00 - 22:00 Uhr</div>
+                    </div>
+                    <div class="hours-item">
+                        <div class="hours-day">Samstag</div>
+                        <div class="hours-time">09:00 - 19:00 Uhr</div>
+                    </div>
+                    <div class="hours-item">
+                        <div class="hours-day">Sonntag</div>
+                        <div class="hours-time">09:00 - 18:00 Uhr</div>
+                    </div>
+                </div>
+
+                <!-- CTA SECTION -->
+                <div class="cta-section">
+                    <h2>Bleiben Sie verbunden</h2>
+                    <p>Folgen Sie uns für Updates!</p>
+                    <div class="cta-buttons">
+                        <a href="https://www.instagram.com/restaurant_soma/" target="_blank" class="btn btn-primary">
+                            📸 Instagram
+                        </a>
+                        <a href="https://lu.ma/so-activesportzentrum" target="_blank" class="btn btn-secondary">
+                            📅 Veranstaltungen
+                        </a>
+                        <a href="https://soma-restaurant.ch" target="_blank" class="btn btn-secondary">
+                            🍽️ Webseite
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: INSTAGRAM -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📸</div>
+                    <h2 class="card-title">Folgen @restaurant_soma</h2>
+                </div>
+                <div class="card-content">
+                    <div class="embed-container">
+                        <!-- To show a specific post, replace with: https://www.instagram.com/p/POST_ID/embed -->
+                        <iframe src="https://www.instagram.com/p/DUaVVsCjEtx/embed" frameborder="0" scrolling="no"
+                            allowtransparency="true" loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Generate QR Codes
+        document.addEventListener('DOMContentLoaded', function () {
+            // QR Code for Restaurant - Smaller size
+            new QRCode(document.getElementById('qr-restaurant'), {
+                text: 'https://soma-restaurant.ch',
+                width: 120,
+                height: 120,
+                colorDark: '#086098',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // QR Code for Luma - Smaller size
+            new QRCode(document.getElementById('qr-luma'), {
+                text: 'https://lu.ma/so-activesportzentrum',
+                width: 120,
+                height: 120,
+                colorDark: '#FF6828',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        });
+    </script>
+</body>
+
+</html>
