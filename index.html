@@ -468,17 +468,14 @@
 
         <!-- MAIN 3-COLUMN GRID -->
         <div class="main-grid">
-            <!-- LEFT COLUMN: RESTAURANT NEWS -->
+            <!-- LEFT COLUMN: MENU IMAGE -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">🍽️</div>
-                    <h2 class="card-title">Restaurant Events</h2>
+                    <div class="card-icon">📜</div>
+                    <h2 class="card-title">Aktuelles Menü</h2>
                 </div>
                 <div class="card-content">
-                    <div class="embed-container">
-                        <iframe src="https://soma-restaurant.ch/#weekly-menu" frameborder="0" scrolling="no"
-                            allowtransparency="true" loading="lazy"></iframe>
-                    </div>
+                    <img src="A4menu.png" alt="Restaurant Menü" style="width: 100%; height: auto; display: block; border-radius: var(--radius-sm);">
                 </div>
             </div>
 
@@ -568,6 +565,15 @@
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
             });
+
+            // Page Auto-Refresh configuration
+            // Set your desired interval in minutes here (e.g., 5, 10, 15, or 60 for an hour)
+            const refreshIntervalMinutes = 5;
+            if (refreshIntervalMinutes > 0) {
+                setTimeout(function () {
+                    window.location.reload();
+                }, refreshIntervalMinutes * 60 * 1000);
+            }
         });
     </script>
 </body>
